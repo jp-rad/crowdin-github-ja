@@ -9,13 +9,16 @@ Crowdinサービスと連携して、pot/po形式ファイルをGitHub上で管�
 
 次の手順で、GitHubとCrowdinの準備を行います。
 
-## GitHubリポジトリの作成
+## GitHubリポジトリの作成と設定
 
 1. GitHubのリポジトリを開きます。  
 https://github.com/jp-rad/crowdin-github-ja  
 1. `Use this template`をクリックします。  
 または、[ここをクリック - https://github.com/jp-rad/crowdin-github-ja/generate](https://github.com/jp-rad/crowdin-github-ja/generate)  
-1. リポジトリ名を入力し、リポジトリを作成します。  
+1. リポジトリ名を入力し、リポジトリを作成します。
+1. 作成したGitHubのリポジトリを開きます。
+1. `Settings`タブの`Actions settings`ページを開きます（`Actions`→`General`）。
+1. `Workflow permissions` セクションで、`Read and write permissions`を選択し、`Save`ボタンをクリックします。
 
 ## Crowdinプロジェクトの作成
 
@@ -33,7 +36,7 @@ https://github.com/jp-rad/crowdin-github-ja
 GitHub ActionsからCrowdinプロジェクトに対してアップロードやダウンロードが行われる為、GitHubのリポジトリに`プロジェクトID`と`パーソナル・アクセス・トークン`を設定します。
 
 1. 作成したGitHubのリポジトリを開きます。
-1. `Settings`タブの`Actions secrets`ページを開きます（`Secrets`→`Actions`）。
+1. `Settings`タブの`Actions secrets`ページを開きます（`Secrets and variables`→`Actions`）。
 1. `New repository secrets`ボタンで、次の表の２つの項目をそれぞれ追加します。
 
 | # | Name | Secret |
@@ -51,6 +54,14 @@ GitHub ActionsからCrowdinプロジェクトに対してアップロードや�
 1. Crowdinで、翻訳（日本語化）します。
 1. 日本語翻訳ファイルをCrowdinからダウンロードします(`l10n_crowdin_action`ブランチ)。
 1. ダウンロードした日本語翻訳ファイルを`l10n_crowdin_action`ブランチから`main`ブランチへマージします。
+
+```mermaid
+graph LR;
+    a(main ブランチ) -- アップロード pot -->c(Crowdinプロジェクト);
+    c -- 翻訳 --> c;
+    c -- ダウンロード po --> b(l10n_crowdin_action ブランチ);
+    b -- マージ --> a;
+```
 
 ## ソースファイルの管理
 
